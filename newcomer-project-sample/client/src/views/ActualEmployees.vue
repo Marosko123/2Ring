@@ -48,7 +48,6 @@ import axios from "axios"
 import router from "../router";
 import { Employee } from "../models/Employee";
 import { Position } from "../models/Position";
-
 // type used only to allow defining data types of variables (intellisense)
 type NewType = {
     showModal: boolean;

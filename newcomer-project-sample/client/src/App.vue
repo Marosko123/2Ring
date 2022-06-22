@@ -70,17 +70,7 @@
 </style>
   
 <script setup lang="ts">
-timer();
-
-function timer(){
-    setInterval(displayTime, 1000)
-}
-
-function displayTime(){
-    let d = new Date();
-
-    document.getElementById("time")!.innerHTML = String(d.getHours()).padStart(2, '0') + ":" 
-    + String(d.getMinutes()).padStart(2, '0') + ":" + String(d.getSeconds()).padStart(2, '0')
-}
+// da sa aj cez moment.js
+setInterval(() => { document.getElementById("time")!.innerHTML = new Date().toLocaleTimeString('sk-SK')}, 1000)
 
 </script>
