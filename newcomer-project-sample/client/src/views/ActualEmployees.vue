@@ -18,7 +18,7 @@
                                 {{emp.firstName + " " + emp.lastName}}
                             </div>
                         </td>
-                        <td style="width: 40%">{{emp.position.split("|")[emp.position.split("|").length-1].split("_")[0]}}</td>
+                        <td style="width: 40%">{{getLastPosition(emp.position)}}</td>
                         <td style="width: 10%">
                             <button id="edit" type="button" class="btn btn-light mr-1" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="openEditEmployeeView(emp)">
                                 <div @click="openEditEmployeeView(emp)" style="cursor: pointer">
@@ -140,7 +140,7 @@ export default defineComponent({
                     })
                 }
                 
-                var tmpPos = emp.position.split("|")[emp.position.split("|").length-1].split("_")[0]
+                var tmpPos = this.getLastPosition(emp.position)
                 console.log("EMP TMP POS IS: " + tmpPos)
 
                 
@@ -189,6 +189,10 @@ export default defineComponent({
             .catch((e) => {
                 console.log(e)
             })
+        },
+        // returns the last position from the format "POSITION_DATE-ENTRY_DATE-LEAVE | POSITION_DATE-ENTRY_DATE-LEAVE | ..."
+        getLastPosition(positionsString: string){
+            return positionsString.split("|")[positionsString.split("|").length - 1].split("_")[0]
         },
     },
     // function called on view open

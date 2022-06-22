@@ -168,7 +168,7 @@ export default defineComponent({
                 return ;
             }
             // get previous position 
-            var prevPosStored = this.storedPosition.split("|")[this.storedPosition.split("|").length - 1].split("_")[0]
+            var prevPosStored = this.getLastPosition(this.storedPosition)
             console.log("PREV POS STORED: " + prevPosStored)
 
             // end previous and add new position
@@ -297,11 +297,16 @@ export default defineComponent({
                 }
             }
         },
+        // returns the last position from the format "POSITION_DATE-ENTRY_DATE-LEAVE | POSITION_DATE-ENTRY_DATE-LEAVE | ..."
+        getLastPosition(positionsString: string){
+            return positionsString.split("|")[positionsString.split("|").length - 1].split("_")[0]
+        },
     },
     // called on view open
     mounted(){
         this.storedPosition = String(this.position);
-        this.employee.position = String(this.position?.split("|")[this.position?.split("|").length - 1].split("_")[0]);
+        if(this.position)
+            this.employee.position = this.getLastPosition(this.position);
         this.employee.flat =  String(this.flat);
         this.employee.adress = String(this.adress);
         this.employee.dateEntry = String(this.dateEntry);

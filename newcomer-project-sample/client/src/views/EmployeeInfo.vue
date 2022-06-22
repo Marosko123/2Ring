@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <td>Position</td>
-                        <td>{{position?.split("|")[position.split("|").length - 1].split("_")[0]}}</td>
+                        <td>{{position ? getLastPosition(position) : "undefined"}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -107,6 +107,10 @@ export default defineComponent({
                     i++
                 }
             }
+        },
+        // returns the last position from the format "POSITION_DATE-ENTRY_DATE-LEAVE | POSITION_DATE-ENTRY_DATE-LEAVE | ..."
+        getLastPosition(positionsString: string){
+            return positionsString.split("|")[positionsString.split("|").length - 1].split("_")[0]
         },
     },
     // called on view open
