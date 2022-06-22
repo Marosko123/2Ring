@@ -193,13 +193,15 @@ export default defineComponent({
         // returns the last position from the format "POSITION_DATE-ENTRY_DATE-LEAVE | POSITION_DATE-ENTRY_DATE-LEAVE | ..."
         getLastPosition(positionsString: string){
             return positionsString.split("|")[positionsString.split("|").length - 1].split("_")[0]
-        },
+        }
+
     },
     // function called on view open
     mounted(){
         this.getEmployees();
-    }
+    },
 })
+
 </script>
 
 <style>
