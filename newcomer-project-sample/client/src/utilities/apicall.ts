@@ -2,16 +2,15 @@ import axios from "axios"
 
 const newLocal = "https://localhost:7283/"
 
-export const async post(path, data): Promise<any> {
+export const async:any, post: Promise<any> (path: string, data: any) {
    let result = await axios.post(newLocal+ path, {
         firstName: data.firstName,
-        lastName: emp.lastName,
-        adress: emp.adress,
-        dateBirth: emp.dateBirth,
-        dateEntry: emp.dateEntry,
-        dateEnd: dateFormat,
-        position: emp.position,
-        flat: emp.flat,
+        lastName: data.lastName,
+        adress: data.adress,
+        dateBirth: data.dateBirth,
+        dateEntry: data.dateEntry,
+        position: data.position,
+        flat: data.flat,
     })
     return result.data;
     

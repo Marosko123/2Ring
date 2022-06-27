@@ -106,13 +106,12 @@
 </template>
 
 <script lang="ts">
-import axios from "axios"
 import { defineComponent } from "vue"
-import { routeLocationKey } from "vue-router";
 import { Employee } from "../models/Employee";
 import { Position } from "../models/Position";
 import { PreviousPosition } from "../models/PreviousPosition";
 import router from "../router";
+import DBUtil from "../utilities/DBUtil";
 
 // type used only to allow defining data types of variables (intellisense)
 type NewType = {
@@ -164,54 +163,38 @@ export default defineComponent({
         // on button click checks if data are valid and sends them to the database where employee is edited
         async submit(){
             if( this.checkValidData()) {
-                console.log("Wrong data inserted")
+                console.error("Wrong data inserted")
                 return ;
             }
             // get previous position 
             var prevPosStored = this.getLastPosition(this.storedPosition)
-            console.log("PREV POS STORED: " + prevPosStored)
 
             // end previous and add new position
             if(this.employee.position != prevPosStored){
-                var today = new Date();
-                var dd = String(today.getDate()).padStart(2, '0');
-                var mm = String(today.getMonth() + 1).padStart(2, '0');
-                var yyyy = today.getFullYear();
-                var now = mm + '/' + dd + '/' + yyyy
+                var dateFormat = new Date().toLocaleDateString("en-US");
     
-                this.storedPosition = this.storedPosition.replace("NOEND", now)
-                this.storedPosition = this.storedPosition + "|" + this.employee.position + "_" + now + "_" + "NOEND";
+                this.storedPosition = this.storedPosition.replace("NOEND", dateFormat)
+                this.storedPosition = this.storedPosition + "|" + this.employee.position + "_" + dateFormat + "_" + "NOEND";
                
                 try {
-                    let response = await axios.get("https://localhost:7283/newwebapi/Positions")
-                    var tmpPoses: Position[] = response.data
+                    var tmpPoses: Position[] = (await DBUtil.getPositions()).data
                     
                     // decrease number of employees on this position
                     for(let loopPos of tmpPoses){
                         if(loopPos.positionName === prevPosStored){
                             loopPos.numberOfEmployeesOnPos--
-                            await axios.put("https://localhost:7283/newwebapi/Positions", {
-                                id: loopPos.id,
-                                positionName: loopPos.positionName,
-                                numberOfEmployeesOnPos: loopPos.numberOfEmployeesOnPos,
-                            })
+                            await DBUtil.putPosition(loopPos)
                             break
                         }
                     }
-
                     // increase number of employees on this position
                     for(let loopPos of tmpPoses){
                         if(loopPos.positionName === this.employee.position){
                             loopPos.numberOfEmployeesOnPos++
-                            await axios.put("https://localhost:7283/newwebapi/Positions", {
-                                id: loopPos.id,
-                                positionName: loopPos.positionName,
-                                numberOfEmployeesOnPos: loopPos.numberOfEmployeesOnPos,
-                            })
+                            await DBUtil.putPosition(loopPos)
                             break
                         }
                     }
-                    
                 } catch (e) {
                     console.error(e)
                 }
@@ -219,7 +202,6 @@ export default defineComponent({
 
             this.editEmployee()
             this.isUpdated = !this.isUpdated
-            
             
             router.push({
                 name: "EmployeeInfo",
@@ -256,8 +238,10 @@ export default defineComponent({
         },
         // edits employee and pushes him into employees database
         editEmployee(){
-            axios.put("https://localhost:7283/newwebapi/Employee", {
-                id: this.id,
+            console.log("Testing EditEmployee.editEmployee()")
+            
+            DBUtil.putEmployee({
+                id: this.id!,
                 firstName: this.employee.firstName,
                 lastName: this.employee.lastName,
                 adress: this.employee.adress,
@@ -265,21 +249,6 @@ export default defineComponent({
                 dateEntry: this.employee.dateEntry,
                 position: this.storedPosition,
                 flat: this.employee.flat.toString(),
-            })
-            .then((response)=>{
-                console.log(response)
-            }).catch((e) => {
-                    console.log(e)
-            })
-        },
-        // pulls data from the positions database
-        getPreviousPositions(){
-            axios.get("https://localhost:7283/newwebapi/Positions")
-            .then((response)=>{
-                this.positions = response.data;
-                console.log(response)
-            }).catch((e) => {
-                    console.log(e)
             })
         },
         // creates an array of previous positions
@@ -303,7 +272,7 @@ export default defineComponent({
         },
     },
     // called on view open
-    mounted(){
+    async mounted(){
         this.storedPosition = String(this.position);
         if(this.position)
             this.employee.position = this.getLastPosition(this.position);
@@ -313,7 +282,7 @@ export default defineComponent({
         this.employee.dateBirth = String(this.dateBirth);
         this.employee.firstName = String(this.firstName);
         this.employee.lastName = String(this.lastName);
-        this.getPreviousPositions()
+        this.positions = (await DBUtil.getPositions()).data
         this.splitPreviousPositions()
     }
 })

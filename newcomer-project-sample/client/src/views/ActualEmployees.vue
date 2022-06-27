@@ -44,10 +44,10 @@
 <script lang="ts">
 
 import { defineComponent } from "vue"
-import axios from "axios"
 import router from "../router";
 import { Employee } from "../models/Employee";
 import { Position } from "../models/Position";
+import DBUtil from "../utilities/DBUtil";
 // type used only to allow defining data types of variables (intellisense)
 type NewType = {
     showModal: boolean;
@@ -59,9 +59,7 @@ type NewType = {
 
 export default defineComponent({
     name: 'ActualEmployees',
-    props: {
-        msg:String,
-    },
+    props: {    },
     data(): NewType{
         return{
             showModal: false,
@@ -114,15 +112,10 @@ export default defineComponent({
             {
                 // archive the employee to previous employees database
                 if(confirm("Do you want to archive this employee?")){
-                    var today = new Date();
-                    var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0');
-                    var yyyy = today.getFullYear();
-                    // create special date format
-                    var dateFormat = mm + '/' + dd + '/' + yyyy;
-
-                    // send archived employee to database
-                    axios.post("https://localhost:7283/newwebapi/PreviousEmployees", {
+                    var dateFormat = new Date().toLocaleDateString("en-US");
+            
+                    DBUtil.postPreviousEmployee({
+                        id: 0,
                         firstName: emp.firstName,
                         lastName: emp.lastName,
                         adress: emp.adress,
@@ -131,75 +124,38 @@ export default defineComponent({
                         dateEnd: dateFormat,
                         position: emp.position,
                         flat: emp.flat,
-                    })
-                    .then((response)=>{
-                        console.log(response)
-                    }).catch((e) => {
-                        console.log(e)
-                    })
+                    }) 
                 }
-                
                 var tmpPos = this.getLastPosition(emp.position)
-                console.log("EMP TMP POS IS: " + tmpPos)
 
-                
                 // delete employee from actual employees database
-                axios.delete('https://localhost:7283/newwebapi/Employee/' + emp.id)
-                .then((response)=>{
-                    this.employees = response.data
-                    console.log(response)
-                }).catch((e) => {
-                    console.log(e)
-                })
-
-                try{
-                    let response = await axios.get("https://localhost:7283/newwebapi/Positions")
-                    this.positions = response.data
-                    console.log(response.data)
-                }catch(e){
-                    console.error(e)  
-                }
+                this.employees = (await DBUtil.deleteEmployee(emp.id)).data
+                this.positions = (await DBUtil.getPositions()).data
 
                 for(var pos of this.positions){
                     if(pos.positionName === tmpPos){
                         pos.numberOfEmployeesOnPos--
-                        try {
-                            await axios.put("https://localhost:7283/newwebapi/Positions", {
-                                id: pos.id,
-                                positionName: pos.positionName,
-                                numberOfEmployeesOnPos: pos.numberOfEmployeesOnPos
-                            })
-                        } catch (e) {
-                            console.error(e)
-                        }
+                        DBUtil.putPosition({
+                            id: pos.id,
+                            positionName: pos.positionName,
+                            numberOfEmployeesOnPos: pos.numberOfEmployeesOnPos
+                        })
                         break;
                     }
                 }
             }
         },
-        
-        // pull employees data from database
-        getEmployees(){
-            axios.get("https://localhost:7283/newwebapi/Employee")
-            .then((response)=>{
-                this.employees = response.data;
-                console.log(response)
-            })
-            .catch((e) => {
-                console.log(e)
-            })
-        },
         // returns the last position from the format "POSITION_DATE-ENTRY_DATE-LEAVE | POSITION_DATE-ENTRY_DATE-LEAVE | ..."
         getLastPosition(positionsString: string){
             return positionsString.split("|")[positionsString.split("|").length - 1].split("_")[0]
         }
-
     },
     // function called on view open
-    mounted(){
-        this.getEmployees();
+    async mounted(){
+        this.employees = (await DBUtil.getEmployees()).data
     },
 })
+
 
 </script>
 
