@@ -86,10 +86,10 @@
 <script lang="ts">
 
 import { defineComponent } from "vue";
-import axios from "axios"
 import { Position } from "../models/Position";
 import { Employee } from "../models/Employee";
 import router from "../router";
+import DBUtil from "../utilities/DBUtil";
 
 // type used only to allow defining data types of variables (intellisense)
 type NewType = {
@@ -100,9 +100,7 @@ type NewType = {
 
 export default defineComponent({
     name: 'ActualEmployees',
-    props: {
-        msg:String,
-    },
+    props: { },
     data(): NewType{
         return{
             employee: {id: 0,firstName: "", lastName: "", adress: "", dateBirth: "", dateEntry: new Date().toISOString().substr(0, 10), flat: "", position: ""},
@@ -152,67 +150,23 @@ export default defineComponent({
             return this.checker.pos = this.employee.position === ""
         },
         // posts employee to the database
-        postEmployee(){
-            var tmpPositions: Position[]
-
+        async postEmployee(){
             // get all existing positions
-            axios.get("https://localhost:7283/newwebapi/Positions")
-            .then((response)=>{
-                console.log(response.data)
-                tmpPositions = response.data;
-                console.log(tmpPositions)
-                
-                // if position already exists, increase it
-                for(var pos of tmpPositions){
-                    console.log("EMPLOYEE POSITION: " + this.employee.position)
-                    if(pos.positionName === this.employee.position){
-                        pos.numberOfEmployeesOnPos ++;
-                        // replace position with increased one
-                        axios.put("https://localhost:7283/newwebapi/Positions", {
-                            id: pos.id,
-                            positionName: pos.positionName,
-                            numberOfEmployeesOnPos: pos.numberOfEmployeesOnPos
-                        })
-                        .then((response)=>{
-                            console.log("Increased position: " + response)
-                        }).catch((e) => {
-                            console.log(e)
-                        })
-                        break;
-                    }
-                }
-            }).catch((e) => {
-                    console.log(e)
-            })
+            var tmpPositions: Position[] = (await DBUtil.getPositions()).data
 
-            axios.post("https://localhost:7283/newwebapi/Employee", {
-                firstName: this.employee.firstName,
-                lastName: this.employee.lastName,
-                adress: this.employee.adress,
-                dateBirth: this.employee.dateBirth,
-                dateEntry: this.employee.dateEntry,
-                position: (this.employee.position + "_" + this.employee.dateEntry + "_NOEND"),
-                flat: this.employee.flat.toString(),
-            })
-            .then((response)=>{
-                console.log(response)
-            }).catch((e) => {
-                console.log(e)
-            })
-        },
-        // pulls all positions available in the company
-        getPositions(){
-            axios.get("https://localhost:7283/newwebapi/Positions")
-            .then((response)=>{
-                this.positions = response.data;
-                console.log(response)
-            }).catch((e) => {
-                    console.log(e)
-            })
+            // if position already exists, increase it
+            for(var pos of tmpPositions){
+                if(pos.positionName === this.employee.position){
+                    pos.numberOfEmployeesOnPos ++;
+                    DBUtil.putPosition(pos)
+                    break;
+                }
+            }
+            DBUtil.postEmployee(this.employee)
         },
     },
-    mounted(){
-        this.getPositions()
+    async mounted(){
+        this.positions = (await DBUtil.getPositions()).data
     }
 })
 </script>

@@ -32,10 +32,9 @@
 </template>
 
 <script lang="ts">
-import axios from "axios";
-import { emitWarning } from "process";
 import { defineComponent } from "vue"
 import { Position } from "../models/Position";
+import DBUtil from "../utilities/DBUtil";
 
 // type used only to allow defining data types of variables (intellisense)
 type NewType = {
@@ -46,9 +45,7 @@ type NewType = {
 
 export default defineComponent({
     name: 'ActualEmployees',
-    props: {
-        msg:String,
-    },
+    props: { },
     data(): NewType{
         return{
             inputText: "",
@@ -58,7 +55,7 @@ export default defineComponent({
     },
     methods: {
         // posts the position to the positions database
-        postPosition(){
+        async postPosition(){
             if(this.inputText.length === 0) return;
             for(var pos of this.positions){
                 console.log(pos)
@@ -68,57 +65,26 @@ export default defineComponent({
                     return;
                 }
             }
-            
-            // posts the position to the positions database
-            axios.post("https://localhost:7283/newwebapi/Positions", {
-                positionName: this.inputText,
-                numberOfEmployeesOnPos: 0
-            })
-            .then((response)=>{
-                this.positions = response.data;
-                console.log(response)
-            }).catch((e) => {
-                console.log(e)
-            })
+            //Configuration - Flip to boot
+            this.positions = (await DBUtil.postPosition({id: 0, positionName: this.inputText, numberOfEmployeesOnPos: 0})).data
             this.inputText = ""
         },
         // removes position from the positions database
-        deletePosition(index: number){
-            axios.get("https://localhost:7283/newwebapi/Positions/" + index)
-            .then((response)=>{
-                if(!response.data.numberOfEmployeesOnPos){
-                    console.log("Position is empty: " + response.data.positionName)
-
-                    axios.delete("https://localhost:7283/newwebapi/Positions/" + index)
-                    .then((response)=>{
-                        this.positions = response.data;
-                        console.log(response)
-                    }).catch((e) => {
-                        console.log(e)
-                    })  
-                } 
-                else{
-                    console.log("Position cannot be deleted, is not empty: " + response.data.positionName)
-                    confirm("Position cannot be deleted because is still in the use!")
-                }
-            }).catch((e) => {
-                    console.log(e)
-            })
-        },
-        // pulls positions from the positions database
-        getPositions(){
-            axios.get("https://localhost:7283/newwebapi/Positions")
-            .then((response)=>{
-                console.log(response)
-                this.positions = response.data;
-            }).catch((e) => {
-                    console.log(e)
-            })
+        async deletePosition(index: number){
+            let numOfEmpOnPos = (await DBUtil.getPosition(index)).data
+            
+            if(numOfEmpOnPos.numberOfEmployeesOnPos === 0){
+                this.positions = (await DBUtil.deletePosition(index)).data
+            } 
+            else{
+                console.error("Position cannot be deleted, is not empty: " + numOfEmpOnPos.positionName)
+                confirm("Position cannot be deleted because is still in the use!")
+            }
         },
     },
     // called on view open
-    mounted(){
-        this.getPositions()
+    async mounted(){
+        this.positions = (await DBUtil.getPositions()).data
     }
 });
 </script>

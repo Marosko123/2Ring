@@ -33,10 +33,10 @@
 </template>
 
 <script lang="ts">
-import axios from "axios"
 import { defineComponent } from "vue"
 import router from "../router"
 import { PreviousEmployee } from "../models/PreviousEmployee"
+import DBUtil from "../utilities/DBUtil"
 
 // type used only to allow defining data types of variables (intellisense)
 type NewType = {
@@ -45,9 +45,7 @@ type NewType = {
 
 export default defineComponent({
     name: 'PreviousEmployees',
-    props: {
-        msg:String,
-    },
+    props: { },
     data(): NewType{
         return{
             previousEmployees:[],
@@ -55,15 +53,9 @@ export default defineComponent({
     },
     methods : {
         // removes previous employee from the previous employees database
-        deletePreviousEmployee(index: number){
+        async deletePreviousEmployee(index: number){
             if(confirm("Are you sure you want to delete this employee permanently?")){
-               axios.delete('https://localhost:7283/newwebapi/PreviousEmployees/' + index)
-               .then((response)=>{
-                    this.previousEmployees = response.data
-                    console.log(response)
-                }).catch((e) => {
-                    console.log(e)
-                })
+                this.previousEmployees = (await DBUtil.deletePreviousEmployee(index)).data
             }
         },
         // opens view where previous employee info is shown
@@ -82,21 +74,10 @@ export default defineComponent({
                 }
             })
         },
-        // gets previous employees from the previous employees database
-        getPreviousEmployees(){
-            axios.get("https://localhost:7283/newwebapi/PreviousEmployees")
-            .then((response)=>{
-                this.previousEmployees = response.data;
-                console.log(response)
-            })
-            .catch((e) => {
-                console.log(e)
-            })
-        },
     },
     // calls on view open
-    mounted(){
-        this.getPreviousEmployees();
+    async mounted(){
+        this.previousEmployees = (await DBUtil.getPreviousEmployees()).data
     }
 })
 </script>
