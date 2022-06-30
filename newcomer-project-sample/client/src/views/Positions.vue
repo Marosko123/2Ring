@@ -65,7 +65,6 @@ export default defineComponent({
                     return;
                 }
             }
-            //Configuration - Flip to boot
             this.positions = (await DBUtil.postPosition({id: 0, positionName: this.inputText, numberOfEmployeesOnPos: 0})).data
             this.inputText = ""
         },

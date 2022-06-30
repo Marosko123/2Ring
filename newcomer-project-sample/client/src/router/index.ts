@@ -11,7 +11,6 @@ const routes = [
     {path: '/', name: 'ActualEmployees', component: ActualEmployees, props: true},
     {path: '/PreviousEmployees', name: 'PreviousEmployees', component: PreviousEmployees, props: true},
     {path: '/Positions', name: 'Positions', component: Positions, props: true},
-    // {path: '/EmployeeInfo', name: 'EmployeeInfo', component: EmployeeInfo, props: true},
     {path: '/AddNewEmployee', name: 'AddNewEmployee', component: AddNewEmployee, props: true},
     {path: '/EditEmployee', name: 'EditEmployee', component: EditEmployee, props: true},
     {path: '/EmployeeInfo', name: 'EmployeeInfo', component: EmployeeInfo, props: true},
