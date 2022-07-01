@@ -38,7 +38,7 @@ import { RouterLink, RouterView } from 'vue-router'
     </div>
   </nav>
 
-  <div class="d-flex" >
+  <!--div class="d-flex" >
         <div class="container-fluid" >
         <div class="row " style="height:862px">
             <div class="col-2 contacts-table">
@@ -82,8 +82,10 @@ import { RouterLink, RouterView } from 'vue-router'
             </div>
         </div>
     </div>
-  </div>
-  
+  </div-->
+
+
+  <RouterView/>
   
 </template>
 
@@ -96,7 +98,7 @@ setInterval(() => { document.getElementById("time")!.innerHTML = new Date().toLo
 </script>
 
 
-<style>
+<!--style>
 #time{
   padding-right: 15px;
   margin-top: 5px;
@@ -146,4 +148,4 @@ p{
   font-size: 22px;
 }
 
-</style>
+</style-->
