@@ -74,20 +74,14 @@
         <!-- My Work -->
         <section class="my-work" id="work">
             <h2 class="section__title section__title--work">My work</h2>
-            <p class="section__subtitle section__subtitle--work"></p>
+            <p class="section__subtitle section__subtitle--work">Selection of my work</p>
 
             <div class="portfolio">
-                <a href="#" class="portfolio__item">
-                    <img src="@/assets/Foto3.jpg" alt="reference button">
+                <a href="https://github.com/Marosko123/Marosko123/tree/main/Projects/StorageUnitAuction" target="_blank" class="portfolio__item">
+                    <img src="@/assets/storageUnitAuction_picture.jpg" alt="storage unit auction" class="portfolio__img">
                 </a>
-                <a href="#" class="portfolio__item">
-                    <img src="@/assets/Foto3.jpg" alt="reference button">
-                </a>
-                <a href="#" class="portfolio__item">
-                    <img src="@/assets/Foto3.jpg" alt="reference button">
-                </a>
-                <a href="#" class="portfolio__item">
-                    <img src="@/assets/Foto3.jpg" alt="reference button">
+                <a href="https://github.com/Marosko123/Marosko123/tree/main/Projects/DataStructures" target="_blank" class="portfolio__item">
+                    <img src="@/assets/dataStructures_image.png" alt="data structures" class="portfolio__img">
                 </a>
             </div>
         </section>
