@@ -1,152 +1,159 @@
-<template id="home">
-    <!-- Introduction -->
-    <section class="intro" id="home">
-        <div class="container  bg-light" style="height:100%">
+<template id="collection">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DevMaros Portfolio</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus&family=Source+Sans+Pro:wght@200&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <!-- Introduction -->
+        <section class="intro" id="home">
             <h1 class="section__title section__title--intro">
-                Hi, I am <br><strong>Maroš Bednár</strong>
+                Hi, I am <strong>Maroš Bednár</strong>
             </h1>
-            <br>
             <p class="section__subtitle section__subtitle--intro">Full-stack developer</p>
-            <br>
-            <img src="@/assets/Foto3.jpg" alt="">
-        </div>
-    </section>
+            <img src="@/assets/Foto.jpg" alt="A picture of Maros Bednar" class="intro__img">
+        </section>
 
-    <!-- My services -->
-    <section class="my-services" id="services">
-        <div class="container bg-info" style="height:100%">
+        <!-- My services -->
+        <section class="my-services" id="services">
             <h2 class="section__title section__title--services">What I do</h2>
-            <div class="container">
-                <div class="row">
-                    <div class="col-6">
-                        <a href="https://www.doucma.sk/272129-doucovanie-programovanie-je-hracka" target="_blank">Teach</a>
-                        <img src="@/assets/teaching.jpg" alt="">
-                        <div class="row"><p>with</p></div>
-                        <div class="row"><p>with</p></div>
-                        <div class="row"><p>with</p></div>
-                        <div class="row"><p>with</p></div>
-                    </div>
-                    <div class="col-6">
-                        <a href="https://www.fiit.stuba.sk/" target="_blank">Study</a>
-                        <img src="@/assets/studying.jpg" alt="">
-                    </div>
+            <p class="section__subtitle section__subtitle--services"></p>
+            
+            <div class="services">
+                <div class="service">
+                    <h3 class="service__name">Teaching</h3>
+                    <p>
+                        Teaching is a very good tool to revise all what 
+                        we have learned during our carreer. Also, it helps 
+                        others to progress faster with the same effort. 
+                        Furthermore, during lessons we are making new friends, 
+                        solving different problems and so on... 😊  
+                    </p>
+                    <p>
+                        Among the programming languages I love to teach belong 
+                        C/C++, C#, Java, Python, Html/Css and Javascript. 
+                        Also, I love to create games in game engine Unity, so 
+                        this is also one of the topics that I teach... 😊
+                    </p>
+                    <p>
+                        If you would like to have lessons with me, feel free to 
+                        contact me! 
+                    </p>
+                </div>
+                <div class="service">
+                    <h3 class="service__name">Programming</h3>
+                    <p>
+                        Do you need a website? 
+                    </p>
+                    <p> 
+                        I can make you one! Send me an email 
+                        containing all necessary information and as soon as I go 
+                        through your criteria I will write you back... 😉
+                    </p>
+                    <br> 
+                    <p>
+                        Do you need a specialised application? 
+                    </p>
+                    <p> 
+                        You are on a right place! Send me an email 
+                        containing all necessary information and as soon as I go 
+                        through your criteria I will write you back... 😉
+                    </p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Skills -->
-    <section class="my-services" id="services">
-        <div class="container bg-warning" style="height:100%">
-            <div class="row">
-                <h2 class="section__title section__title--services">My skills</h2>
+            <a href="mailto:bednarmaros341@gmail.com" class="btn">SEND ME AN EMAIL!</a>
+        </section>
+
+        <!-- About me -->
+        <section class="about-me" id="about">
+            <h2 class="section__title section__title--about">Who I am</h2>
+            <p class="section__subtitle section__subtitle--about">Full-stack developer based inside Slovakia</p>
+
+            <div class="about-me__body">
+                <p>
+                    I am a 20-years old student of the Faculty of Informatics 
+                    and Information Technologies Bratislava who love to improve on 
+                    a daily basis. 📈 
+                </p>
+                <br>
+                <p>
+                    Also, I love sports. I was a very active kid in my childhood and 
+                    a part of activness stood inside me till today. This days I play 
+                    volleyball or basketball, go snowboarding during the winter season, 
+                    go cycling in the summer or even go fishing. 🎣
+                </p>
+                <br>
+                <p>
+                    Maybe you are asking me, "How did you learn programming?". The answer 
+                    is a little bit funny. As a kid I dreamed to be a doctor. Be famous, 
+                    have a lot people who need me. I also chose a school to prepare for 
+                    being a doctor. It was a grammar school. We had a lot of biology and 
+                    chemistry. These subjects were one of my favourite.  
+
+                </p>
             </div>
-                
-            <div class="row">
-                <div class="col-6 bg-light">
-                    <div class="skills__programming">
-                        <h3>Programming skills</h3>
-                        <div class="container">
-                            <div class="row"><p>C/C++</p></div>
-                            <div class="row"><p>C#</p></div>
-                            <div class="row"><p>Java</p></div>
-                            <div class="row"><p>Python</p></div>
-                            <div class="row"><p>Html/Css</p></div>
-                            <div class="row"><p>Typescript</p></div>
-                            <div class="row"><p>Javascript</p></div>
-                            <div class="row"><p>SQL</p></div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-6 bg-success">
-                    <div class="skills__programming">
-                        <h3>Frameworks skills</h3>
-                        <div class="container">
-                            <div class="row"><p>Vue js</p></div>
-                            <div class="row"><p>Bootstrap</p></div>
-                            <div class="row"><p>Spring</p></div>
-                            <div class="row"><p>Swing</p></div>
-                        </div>
-                    </div>
-                </div>
+            <img src="@/assets/Foto3.jpg" alt="Maros idk.." class="about-me__img">
+        </section>
+
+        <!-- My Work -->
+        <section class="my-work" id="work">
+            <h2 class="section__title section__title--work">My work</h2>
+            <p class="section__subtitle section__subtitle--work">Selection of my work</p>
+
+            <div class="portfolio">
+                <router-link to="/projectStorageUnitAuction" id="router" class="portfolio__item" aria-current="page">  
+                    <img src="@/assets/storageUnitAuction_picture.jpg" alt="storage unit auction" class="portfolio__img">
+                </router-link>
+                <router-link to="/projectDataStructures" id="router" class="portfolio__item" aria-current="page">  
+                    <img src="@/assets/dataStructures_image.png" alt="data structures" class="portfolio__img">
+                </router-link>
             </div>
-        </div>
-    </section>
+        </section>
 
+        <!-- Footer -->
+        <footer class="footer">
+            <ul class="social-list">
+                <li class="social-list__item"><a class="social-list__link" href="mailto:bednarmaros341@gmail.com" target="_blank"><img class="footer__logo" src="@/assets/gmailLogo.png" alt="Gmail logo"></a></li>
+                <li class="social-list__item"><a class="social-list__link" href="https://github.com/Marosko123" target="_blank"><img class="footer__logo" src="@/assets/githubLogo.png" alt="Github logo"></a></li>
+                <li class="social-list__item"><a class="social-list__link" href="https://www.linkedin.com/in/marosbednar/" target="_blank"><img class="footer__logo" src="@/assets/linkedInLogo.png" alt="Linkedin logo"></a></li>
+                <li class="social-list__item"><a class="social-list__link" href="https://www.instagram.com/bednar.maros/" target="_blank"><img class="footer__logo" src="@/assets/instagramLogo.png" alt="Instagram logo"></a></li>
+                <li class="social-list__item"><a class="social-list__link" href="https://www.facebook.com/maros.bednar8/" target="_blank"><img class="footer__logo" src="@/assets/facebookLogo.png" alt="Facebook logo"></a></li>
+                <li class="social-list__item"><a class="social-list__link" href="https://www.doucma.sk/272129-doucovanie-programovanie-je-hracka" target="_blank"><img class="footer__logo" src="@/assets/doucmaLogo.png" alt="Doucma logo"></a></li>
+            </ul>   
+        </footer>
+    </body>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
 
 export default defineComponent ({
-    name: 'Home',
+    name: 'Collection',
     props: {
 
     },
     data() {
         return {
-            clicks: 0,
-            text: "",
-            isAwesome: true
+
         }
     },
     methods:{
-        submit(){
-            this.text = "";
-        },
+
     },
     mounted(){
-
+        
     }
 })
 </script>
 
-<!--style>
+<style>
+@import '@/styles/style.css';
 
-h1{
-    display: inline;
-    line-height: 1em;
-}
 
-.my-text{
-    margin-top: 75px;
-    color: rgb(28, 31, 74);
-    background-color: aliceblue;
-    text-align: start;
-    border-radius: 35px;
-    width: 950px;
-    margin-left: 50px;
-}
-
-.my-first-text,
-.my-text-hover:hover{
-    color: rgb(0, 153, 255);
-    font-size: 60px;
-}
-
-.user-text{
-    margin-top: 75px;
-    margin-right: 50px;
-    color: rgb(28, 31, 74);
-    background-color: aliceblue;
-    text-align: end;
-    border-radius: 35px;
-    width: 950px;
-}
-
-.user-first-text,
-.user-text-hover:hover{
-    color: rgb(255, 74, 74);
-    font-size: 60px;
-}
-
-.anchor{
-    font-size: 60px;
-}
-
-section{
-    height: 800px;
-}
-
-</style-->
+</style>

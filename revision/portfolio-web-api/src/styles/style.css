@@ -93,6 +93,35 @@ strong{
     transform: scale(1.1);
 }
 
+/* Navbar */
+
+.navbar {
+    position: fixed;
+    z-index: 999;
+    min-width: 100%;
+}
+
+.navbar-brand,
+.nav-link {
+    color: var(--clr-accent);
+}
+
+.navbar-brand:hover,
+.nav-link:hover,
+.navbar-brand:focus,
+.nav-link:focus {
+    color: var(--clr-light);
+}
+
+@media (max-width: 600px){
+    .navbar {
+        min-width: 100%;
+    }
+}
+
+/* Title */
+
+
 .section__title {
     margin-bottom: .25em;
 }
@@ -118,11 +147,10 @@ strong{
     padding: .25em 1em;
     font-family: var(--ff-secondary);
     margin-bottom: 1em;
+    font-weight: var(--fw-bold);
 }
 
 /* Headder */
-
-nav { display: none }
 
 
 /* Intro section */
@@ -169,11 +197,14 @@ nav { display: none }
     }
 }
 
+
+/* My services */
+
 .my-services {
     background-color: var(--clr-dark);
-    background-image: url(../assets/laptop.jpg);
+    background-image: url(../assets/programming.jpg);
     background-size: cover;
-    /*background-blend-mode: multiply;*/
+    background-blend-mode: multiply;
     color: var(--clr-light);
     text-align: center;
 }
@@ -188,7 +219,7 @@ nav { display: none }
     display: block;
     width: 25%;
     height: 1px;
-    margin: 0.5em auto 1em;
+    margin: 0.5em auto 0em;
     background: var(--clr-light);
 }
 
@@ -199,6 +230,12 @@ nav { display: none }
 
 .services {
     margin-bottom: 4em;
+}
+
+.service__name {
+    margin-bottom: 1em;
+    margin-top: 1em;
+    font-size: 2em;
 }
 
 @media (min-width: 800px) {
@@ -307,16 +344,39 @@ nav { display: none }
 }
 
 
+/* Footer */
 
-/* My own stylings */
-
-.social-list__item{
-    max-width: 30px;
-    display: inline-block;
-    margin: .25em;
+.footer {
+    background-color: var(--clr-light);
+    color: var(--clr-accent);
+    text-align: center;
+    padding: 1em;
+    margin-top: 1em;
 }
 
+.footer-link {
+    color: var(--clr-accent);
+    font-size: var(--fs-h3);
+    font-weight: bold;
+    text-decoration: none;
+}
 
+.footer__logo {
+    transition: 
+        transform 500ms cubic-bezier(.5, 0, .5, 1),
+        opacity 250ms linear;
+}
+
+.footer__logo:hover {
+    transform: scale(1.5);
+    opacity: 0.65;
+}
+
+.social-list__item {
+    max-width: 35px;
+    display: inline-block;
+    margin: .8em;
+}
 
 
 
